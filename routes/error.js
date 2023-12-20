@@ -1,18 +1,12 @@
 import path from "path";
 import express from "express";
+import { rootDir } from "../utils/path.js";
 
 const router = express.Router();
-
-const moduleURL = new URL(import.meta.url);
-const filePath = path.join(
-  path.dirname(moduleURL.pathname),
-  "../",
-  "views",
-  "404.html"
-);
+const filePath = path.join(rootDir, "views", "404.html");
 
 router.use("/", (req, res) => {
-  res.status(404).sendFile(filePath);
+  res.sendFile(filePath);
 });
 
 const errorHandler = router;

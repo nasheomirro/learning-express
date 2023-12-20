@@ -1,18 +1,11 @@
 import path from "path";
 import express from "express";
+import { rootDir } from "../utils/path.js";
 
 const router = express.Router();
-
-const moduleURL = new URL(import.meta.url);
-const filePath = path.join(
-  path.dirname(moduleURL.pathname),
-  "../",
-  "views",
-  "add-product.html"
-);
+const filePath = path.join(rootDir, "views", "add-product.html");
 
 router.get("/add-product", (req, res) => {
-  console.log(filePath);
   res.sendFile(filePath);
 });
 
