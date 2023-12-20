@@ -8,12 +8,12 @@ const filePath = path.join(
   path.dirname(moduleURL.pathname),
   "../",
   "views",
-  "shop.html"
+  "404.html"
 );
 
-router.get("/", (req, res) => {
-  res.sendFile(filePath);
+router.use("/", (req, res) => {
+  res.status(404).sendFile(filePath);
 });
 
-const shopRoutes = router;
-export default shopRoutes;
+const errorHandler = router;
+export default errorHandler;
