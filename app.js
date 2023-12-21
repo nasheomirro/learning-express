@@ -8,6 +8,9 @@ import { rootDir } from "./utils/path.js";
 
 const app = express();
 
+app.set("view engine", "pug");
+app.set("views", path.join(rootDir, "views"));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(rootDir, "public")));
 
