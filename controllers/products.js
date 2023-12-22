@@ -1,5 +1,4 @@
-// makeshift database
-const products = [];
+import Product from "../models/product.js";
 
 export function getAddProduct(req, res) {
   res.render("add-product", {
@@ -8,14 +7,15 @@ export function getAddProduct(req, res) {
   });
 }
 
-export function addProduct(req, res) {
-  console.log("new product", req.body);
-  products.push({ title: req.body.title });
+export async function postAddProduct(req, res) {
+  const product = new Product(req.body.title);
+  await product.save();
 
   res.redirect("/");
 }
 
-export function getProducts(req, res) {
+export async function getProducts(req, res) {
+  const products = await Product.fetchAll();
   res.render("shop", {
     products,
     pageTitle: "Shop",

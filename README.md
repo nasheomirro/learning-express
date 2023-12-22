@@ -1,0 +1,1 @@
+The repository I used to follow a udemy course by Maximilian Schwarzmüller. the course focuses on Node, Express, GraphQL and all the other good stuff.
