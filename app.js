@@ -1,9 +1,8 @@
 import path from "path";
 import express from "express";
 
-import shopRoutes from "./routes/shop.js";
-import errorHandler from "./routes/error.js";
-
+import { errorHandler } from "./routes/error.js";
+import { shopRoutes } from "./routes/shop.js";
 import { adminRoutes } from "./routes/admin.js";
 import { rootDir } from "./utils/path.js";
 
