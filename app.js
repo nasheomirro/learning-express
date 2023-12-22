@@ -1,7 +1,7 @@
 import path from "path";
 import express from "express";
 
-import { errorHandler } from "./routes/error.js";
+import errorController from "./controllers/error.js";
 import { shopRoutes } from "./routes/shop.js";
 import { adminRoutes } from "./routes/admin.js";
 import { rootDir } from "./utils/path.js";
@@ -16,6 +16,6 @@ app.use(express.static(path.join(rootDir, "public")));
 
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
-app.use(errorHandler);
+app.use(errorController.get404);
 
 app.listen(3000);
