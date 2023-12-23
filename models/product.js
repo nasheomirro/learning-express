@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+
 import { rootDir } from "../utils/path.js";
 
 const filePath = path.join(rootDir, "data", "products.json");
@@ -22,6 +23,7 @@ export default class Product {
   }
 
   async save() {
+    this.id = Math.random().toString();
     let products = await getProductsFromFile();
     products.push(this);
     fs.writeFile(filePath, JSON.stringify(products));
@@ -29,5 +31,10 @@ export default class Product {
 
   static async fetchAll() {
     return getProductsFromFile();
+  }
+
+  static async findById(id) {
+    const products = await getProductsFromFile();
+    return products.find(product => product.id === id);
   }
 }
