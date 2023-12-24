@@ -1,7 +1,7 @@
 import Cart from "../models/cart.js";
 import Product from "../models/product.js";
 
-const shopController = {
+export default {
   getProducts,
   getProduct,
   getIndex,
@@ -11,8 +11,10 @@ const shopController = {
   postCart,
 };
 
-export default shopController;
-
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getProducts(req, res) {
   const products = await Product.fetchAll();
 
@@ -23,8 +25,13 @@ async function getProducts(req, res) {
   });
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getProduct(req, res) {
   const product = await Product.findById(req.params.productId);
+
   res.render("shop/product-detail", {
     pageTitle: product.title,
     product,
@@ -32,6 +39,10 @@ async function getProduct(req, res) {
   });
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getIndex(req, res) {
   const products = await Product.fetchAll();
 
@@ -42,6 +53,10 @@ async function getIndex(req, res) {
   });
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getCart(req, res) {
   res.render("shop/cart", {
     path: "/cart",
@@ -49,14 +64,22 @@ async function getCart(req, res) {
   });
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function postCart(req, res) {
   const prodId = req.body.productId;
   const product = await Product.findById(prodId);
-  console.log("cart posted", prodId)
+  console.log("cart posted", prodId);
   await Cart.addProduct(prodId, product.price);
   res.redirect("/cart");
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getOrders(req, res) {
   res.render("shop/orders", {
     path: "/orders",
@@ -64,6 +87,10 @@ async function getOrders(req, res) {
   });
 }
 
+/**
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
 async function getCheckout(req, res) {
   res.render("shop/checkout", {
     path: "/checkout",
