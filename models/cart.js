@@ -5,8 +5,12 @@ import { rootDir } from "../utils/path.js";
 
 const filePath = path.join(rootDir, "data", "cart.json");
 
+async function saveCartToFile(cart) {
+  await fs.writeFile(filePath, JSON.stringify(cart));
+}
+
 export default class Cart {
-  static async getPreviousCart() {
+  static async getCart() {
     try {
       const data = await fs.readFile(filePath, { encoding: "utf-8" });
       return JSON.parse(data);
@@ -16,7 +20,7 @@ export default class Cart {
   }
 
   static async addProduct(id, productPrice) {
-    const cart = await this.getPreviousCart();
+    const cart = await this.getCart();
     const productExists = cart.products.find((product) => product.id === id);
     if (productExists) {
       cart.products = cart.products.map((product) =>
@@ -29,6 +33,21 @@ export default class Cart {
     const price = productPrice || 0;
     cart.totalPrice += typeof price === "number" ? price : parseFloat(price);
 
-    await fs.writeFile(filePath, JSON.stringify(cart));
+    await saveCartToFile(cart);
+  }
+
+  static async deleteProduct(id, productPrice) {
+    const cart = await this.getCart();
+    const productExists = cart.products.find((product) => product.id === id);
+    if (productExists) {
+      cart.products = cart.products.filter((product) => product.id !== id);
+      const price = productPrice || 0;
+      cart.totalPrice -=
+        typeof price === "number"
+          ? price
+          : parseFloat(price * productExists.qty);
+
+      saveCartToFile(cart);
+    }
   }
 }

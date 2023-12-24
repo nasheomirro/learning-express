@@ -95,7 +95,7 @@ async function postAddProduct(req, res) {
  * @param {import("express").Response} res
  */
 async function getProducts(req, res) {
-  const products = await Product.fetchAll();
+  const products = await Product.getAll();
   res.render("admin/products", {
     prods: products,
     pageTitle: "Admin Products",

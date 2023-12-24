@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 
 import { rootDir } from "../utils/path.js";
+import Cart from "./cart.js";
 
 const filePath = path.join(rootDir, "data", "products.json");
 
@@ -19,7 +20,7 @@ async function saveProductsToFile(products) {
 }
 
 export default class Product {
-  static async fetchAll() {
+  static async getAll() {
     return getProductsFromFile();
   }
 
@@ -58,7 +59,9 @@ export default class Product {
 
   static async deleteProduct(id) {
     let products = await getProductsFromFile();
+    const product = products.find((product) => product.id === id);
     products = products.filter((product) => product.id !== id);
     await saveProductsToFile(products);
+    await Cart.deleteProduct(id, product.price);
   }
 }
